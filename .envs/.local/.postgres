@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=recpoint
+POSTGRES_USER=qVbLXmTgrEcLqPGBKstCHTARpSTiComQ
+POSTGRES_PASSWORD=jsKBOMbV3zlcg3C41ls0LIFklUK7QJCRqdzjru5P6yrofxmtj1Y6laEA0dSEdv2C
