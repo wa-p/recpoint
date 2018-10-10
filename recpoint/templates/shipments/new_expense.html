@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+NEW SHIPMENTS
+
+
+  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn">Update</button>
+      </div>
+    </div>
+  </form>
+
+
+
+{% endblock %}

@@ -1,1 +1,37 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<main class="bd-masthead" id="content" role="main">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-6 mx-auto col-md-6 order-md-2">
+         <img class="img-fluid mb-3 mb-md-0" src="{% static 'images/favicons/recpoint_icon.jpg' %}" alt="" width="300" height="300">
+      </div>
+      <div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
+        <br>
+        <br>
+        <h1 class="mb-3 bd-text-purple-bright">ABOUT</h1>
+         <p class="lead">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at nibh ut leo posuere tristique ac sit amet risus
+        </p>
+        <p class="lead mb-4">
+          Integer tortor quam, congue vitae purus sagittis, cursus tempus nisl. Morbi elit nibh, pretium non accumsan ac, lobortis in lectus. Aenean quis ultrices purus, in vulputate massa. Nulla at luctus nibh. Donec sagittis tristique elit, et volutpat arcu tristique ac. Fusce dapibus, ipsum sit amet blandit ultrices, augue metus faucibus sem, eget mattis massa nisl ac lacus.
+        </p>
+        <div class="d-flex flex-column flex-md-row lead mb-3">
+          <!--a href="/docs/4.1/getting-started/introduction/" class="btn btn-lg btn-bd-primary mb-3 mb-md-0 mr-md-3" onclick="ga('send', 'event', 'Jumbotron actions', 'Get started', 'Get started');">Get started</a>
+          <a href="/docs/4.1/getting-started/download/" class="btn btn-lg btn-outline-secondary" onclick="ga('send', 'event', 'Jumbotron actions', 'Download', 'Download 4.1.3');">Download</a-->
+        </div>
+        <p class="text-muted mb-0">
+          Currently v4.1.3
+        </p>
+      </div>
+    </div>
+    
+
+  </div>
+</main>
+
+{% endblock %}
