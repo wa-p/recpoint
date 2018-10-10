@@ -83,6 +83,29 @@ INSTALLED_APPS += ['storages']  # noqa F405
 # STATIC
 # ------------------------
 
+####  ESTO ES NUEVO
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+# https://docs.djangoproject.com/en/dev/ref/settings/#static-url
+STATIC_URL = '/static/'
+# https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
+STATICFILES_DIRS = [
+    str(APPS_DIR.path('static')),
+]
+# https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# MEDIA
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = str(APPS_DIR('media'))
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = '/media/'
+
+###  HASTA AQUI ES NUEVO
+
 ## STATICFILES_STORAGE = 'config.settings.production.StaticRootS3Boto3Storage'
 ## STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
 
@@ -91,16 +114,16 @@ INSTALLED_APPS += ['storages']  # noqa F405
 
 # region http://stackoverflow.com/questions/10390244/
 # Full-fledge class: https://stackoverflow.com/a/18046120/104731
-from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
+## from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
 
 
-class StaticRootS3Boto3Storage(S3Boto3Storage):
-    location = 'static'
+## class StaticRootS3Boto3Storage(S3Boto3Storage):
+   ## location = 'static'
 
 
-class MediaRootS3Boto3Storage(S3Boto3Storage):
-    location = 'media'
-    file_overwrite = False
+## class MediaRootS3Boto3Storage(S3Boto3Storage):
+   ## location = 'media'
+   ## file_overwrite = False
 
 
 # endregion
@@ -110,6 +133,48 @@ class MediaRootS3Boto3Storage(S3Boto3Storage):
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
+
+#### ESTO ES NUEVO
+
+TEMPLATES = [
+    {
+        # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        'DIRS': [
+            str(APPS_DIR.path('templates')),
+        ],
+        'OPTIONS': {
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            'debug': DEBUG,
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+### HASTA AQUI ES NUEVO
+
+
+"""
+##
 TEMPLATES[0]['OPTIONS']['loaders'] = [  # noqa F405
     (
         'django.template.loaders.cached.Loader',
@@ -119,6 +184,9 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [  # noqa F405
         ]
     ),
 ]
+##
+"""
+
 
 # EMAIL
 # ------------------------------------------------------------------------------
