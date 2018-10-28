@@ -25,6 +25,13 @@ urlpatterns = [
         "shipments/",
         include("shipments.urls", namespace="shipments"),
     ),
+     path(
+        "assets/",
+        include("assets.urls", namespace="assets"),
+    ),
+
+
+
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )

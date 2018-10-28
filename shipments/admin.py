@@ -10,6 +10,9 @@ admin.site.register(Shipment)
 admin.site.register(Cost)
 admin.site.register(PriceHistory)
 admin.site.register(ShipmentCost)
+admin.site.register(Payment)
+admin.site.register(ShipmentCompany)
+admin.site.register(PaymentVariation)
 
 
 

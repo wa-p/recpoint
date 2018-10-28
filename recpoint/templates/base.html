@@ -1,6 +1,7 @@
 {% load static i18n %}
 {% load user_tags %}
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -125,18 +126,53 @@
       <script src="{% static 'js/project.js' %}"></script>
 
       <script type="text/javascript">
+        $('#div_id_description').hide();
+
         $('select[name="expense_type"]').change(function(){
             if (this.value == "Toll"){
               $('#div_id_gas_gallons').hide();
-            }else{
+              $('#div_id_description').hide();
+            }else if (this.value == "Gas"){
               $('#div_id_gas_gallons').show();
-            }
-
-            
-
-            
-
+              $('#div_id_description').hide();
+            } else if (this.value == "Extra"){
+                $('#div_id_gas_gallons').hide();
+                $('#div_id_description').show();
+            }     
         });
+
+
+        
+        $(document).ready(function() {
+    // #login-box password field
+   
+    $('#id_payment_date').attr('type', 'date');
+     $('#id_order_date').attr('type', 'date');
+     $('#id_delivery_date').attr('type', 'date');
+    
+});
+      </script>
+
+      <script type="text/javascript">
+        
+
+  var payment_subtotal = 0;
+  $(".select_payment").change(function(event){
+    if (this.checked){
+        payment_subtotal += parseFloat($(this).data('ammount'));
+        //alert(payment_subtotal);
+        $('#subtotal').text(payment_subtotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+        $('#paymentConfirm').text(payment_subtotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+    } else {
+       payment_subtotal = payment_subtotal- parseFloat($(this).data('ammount')) ;
+        //alert(payment_subtotal);
+        $('#subtotal').text(payment_subtotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+        $('#paymentConfirm').text(payment_subtotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+    }
+});
+
+
+
       </script>
       
 

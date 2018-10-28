@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load user_tags %}
 
 {% block content %}
 
@@ -33,13 +34,79 @@
   
 
 
+
+
+
+
 <!-- Action buttons -->
 <div class="container">
   <div class="row align-items-center">
       <h3>Make other stuff</h3>
         <div class="col-sm-12">
-          <a class="btn btn-primary" href="{% url 'shipments:newShipment' %}" role="button">Start New Order <i class="fas fa-stroopwafel"></i></a>
-          <a class="btn btn-primary" href="{% url 'shipments:newExpense' %}" role="button">Load Expenses <i class="fas fa-stroopwafel"></i></a>
+
+          <a class="btn btn-primary" data-toggle="collapse" href="#shipmentsCollapse" role="button" aria-expanded="false" aria-controls="shipmentsCollapse">
+            Shipments Actions
+          </a>
+          {% if request.user|has_group:"Management" %}
+          <a class="btn btn-primary" data-toggle="collapse" href="#calculateCollapse" role="button" aria-expanded="false" aria-controls="calculateCollapse">
+            Calculate Actions
+          </a>
+          <a class="btn btn-primary" data-toggle="collapse" href="#shipmentCollapse" role="button" aria-expanded="false" aria-controls="shipmentCollapse">
+            Shipments List
+          </a>
+
+          {% endif %}
+
+
+          <div class="collapse " id="shipmentsCollapse">
+            <div class="card card-body col-sm-6">
+              <a class="btn btn-primary" href="{% url 'shipments:newShipment' %}" role="button" style="margin-bottom: 8px">Start New Order <i class="fas fa-stroopwafel"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='open' %}" role="button" style="margin-bottom: 8px">Close Order <i class="fas fa-stroopwafel"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:newExpense' %}" role="button" style="margin-bottom: 8px">Load Expenses <i class="fas fa-stroopwafel"></i></a>
+              {% if request.user|has_group:"Management" %}
+                <a class="btn btn-primary" href="{% url 'shipments:newPayment' %}" role="button" style="margin-bottom: 8px">Load Payment <i class="fas fa-stroopwafel"></i></a>
+              {% endif %}
+            </div>
+          </div>
+
+           <div class="collapse" id="calculateCollapse">
+            <div class="card card-body col-sm-6">
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='expense' %}" role="button" style="margin-bottom: 8px">Expense per shipment <i class="fas fa-calendar-check"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='client' %}" role="button" style="margin-bottom: 8px">Billing <i class="fas fa-calendar-check"></i></a>
+              
+              <a class="btn btn-primary" href="{% url 'assets:galPerMiles' %}" role="button" style="margin-bottom: 8px">Gal per miles <i class="fas fa-calendar-check"></i></a>
+               <a class="btn btn-primary" href="{% url 'assets:dolarPerMiles' %}" role="button" style="margin-bottom: 8px">Dollar per miles <i class="fas fa-calendar-check"></i></a>
+              
+                <a class="btn btn-primary" href="{% url 'assets:payedRealMiles' %}" role="button" style="margin-bottom: 8px">Diff Miles <i class="fas fa-calendar-check"></i></a>
+                <a class="btn btn-primary" href="{% url 'assets:driverPayment' %}" role="button" style="margin-bottom: 8px">Driver Unpaid Orders <i class="fas fa-calendar-check"></i></a>
+
+              
+            </div>
+          </div>
+          
+
+          <div class="collapse" id="shipmentCollapse">
+            <div class="card card-body col-sm-6">
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='all' %}" role="button" style="margin-bottom: 8px">List All Shipments <i class="fas fa-calendar-check"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='closed' %}" role="button" style="margin-bottom: 8px">List Delivered Shipments <i class="fas fa-calendar-check"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='client' %}" role="button" style="margin-bottom: 8px">List Shipments Payed By Client <i class="fas fa-calendar-check"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='driver' %}" role="button" style="margin-bottom: 8px">List Shipments Payed To Driver <i class="fas fa-calendar-check"></i></a>
+              <!--a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='expense' %}" role="button" style="margin-bottom: 8px">Expense per shipment <i class="fas fa-calendar-check"></i></a>
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentsList' option='closed' %}" role="button" style="margin-bottom: 8px">Billing <i class="fas fa-calendar-check"></i></a>
+              
+              <a class="btn btn-primary" href="{% url 'assets:galPerMiles' %}" role="button" style="margin-bottom: 8px">Gal per miles <i class="fas fa-calendar-check"></i></a>
+               <a class="btn btn-primary" href="{% url 'assets:dolarPerMiles' %}" role="button" style="margin-bottom: 8px">Dollar per miles <i class="fas fa-calendar-check"></i></a>
+              
+                <a class="btn btn-primary" href="{% url 'assets:payedRealMiles' %}" role="button" style="margin-bottom: 8px">Diff Miles <i class="fas fa-calendar-check"></i></a-->
+                
+
+              
+            </div>
+          </div>
+          
+          
+         
+
           <!-- Your Stuff: Custom user template urls -->
         </div>
 

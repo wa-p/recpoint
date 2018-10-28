@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load asset_tags %}
+{% load humanize %}
+{% block title %}Payed vs Real Miles{% endblock %}
+
+{% block content %}
+
+<br><br>
+<h2>Payed vs Real Miles</h2>
+
+ <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
+   				 {% csrf_token %}
+   				 <div class="row"> 				 
+				   	<div class="form-group col-sm-6">
+					    <label for="start_date">Start Date</label>
+					    <input type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate" placeholder="Starting Date" required>				    
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="end_date">End Date</label>
+					    <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate" placeholder="Ending Date" required>				    
+					  </div>
+				  </div>
+			    <div class="control-group">
+			      <div class="controls">
+			        <button type="submit" style="background-color: #083652" class="text-white">Search</button>
+			      </div>
+			    </div>
+			  </form>
+			  <br><br>
+
+
+<table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th scope="col">Order Number</th>
+            <th scope="col">Payed Miles</th>
+            <th scope="col">Real Miles</th>
+            <th scope="col">Diff. Payed vs Real</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Driver</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in orders %}
+          <tr>
+            <th scope="row">{{o.order_number}}</th>
+            <td>{{o.payed_miles}} Mi.</td>
+            <td>{{o.real_miles}} Mi.</td>
+            
+              {% if o.diff_miles  < 0 %}
+                <td style="color:red"> {{o.diff_miles }} Mi.</td>
+              {% else %}
+                <td> {{o.diff_miles }} Mi.</td>
+              {% endif %}
+            <td>{{o.destination}}</td>
+            <td>{{o.driver}}</td>    
+            
+            
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+
+
+{% endblock %}

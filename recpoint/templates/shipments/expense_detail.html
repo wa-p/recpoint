@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
+
+<br><br>
+<h2>EXPENSE DETAILS FOR {{order}}</h2>
+
+<table class="table table-striped text-center">
+			  <thead>
+			    <tr>
+			      
+			      <th scope="col">Expense Type</th>
+			      <th scope="col">Gallons</th>
+			      <th scope="col">Comments</th>
+			      <th scope="col">Payed Ammount</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+
+
+			  	{% for s in gas_expense %}
+			    <tr>
+			     
+			      <td>{{s.expense_type}}</td>
+			      <td>{{s.gas_gallons}}</td>
+			      <td>{{s.description}}</td>     
+			      <td>$ {{s.cost|intcomma}}</td>
+			      
+			    </tr>
+			    {% endfor %}
+
+			    
+			    	{% for s in toll_expense %}
+			    
+			    <tr>
+			     
+			      <td>{{s.expense_type}}</td>
+			      <td>{{s.gas_gallons}}</td>
+			      <td>{{s.description}}</td>     
+			      <td>$ {{s.cost|intcomma}}</td>
+			      
+			    </tr>
+			    {% endfor %}
+			     
+			    	{% for s in def_expense %}
+			    
+			    <tr>
+			     
+			      <td>{{s.expense_type}}</td>
+			      <td>{{s.gas_gallons}}</td>
+			      <td>{{s.description}}</td>     
+			      <td>$ {{s.cost|intcomma}}</td>
+			      
+			    </tr>
+			    {% endfor %}
+			    
+			    	{% for s in extra_expense %}
+			    
+			    <tr>
+			     
+			      <td>{{s.expense_type}}</td>
+			      <td>{{s.gas_gallons}}</td>
+			      <td>{{s.description}}</td>     
+			      <td>$ {{s.cost|intcomma}}</td>
+			      
+			    </tr>
+			    {% endfor %}
+			     
+			     
+			     <tr>
+			      <th scope="row"></th>
+			      
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			     {% if gas_total.cost__sum != None %}
+			    <tr>
+			     
+			      <td></td>
+			      <td></td>
+			      <td><b>Gas SubTotal</b></td>     
+			      <td><b>$ {{gas_total.cost__sum|intcomma}}</b></td>
+			      
+			    </tr>
+			    {% endif %}
+			    {% if toll_total.cost__sum != None %}
+			     <tr>
+			     
+			      <td></td>
+			      <td></td>
+			      <td><b>Toll SubTotal</b></td>     
+			      <td><b>$ {{toll_total.cost__sum|intcomma}}</b></td>
+			      
+			    </tr>
+			    {% endif %}
+			    {% if def_total.cost__sum != None %}
+			     <tr>
+			     
+			      <td></td>
+			      <td></td>
+			      <td><b>Def SubTotal</b></td>     
+			      <td><b>$ {{def_total.cost__sum|intcomma}}</b></td>
+			      
+			    </tr>
+			    {% endif %}
+			    {% if extra_total.cost__sum != None %}
+			     <tr>
+			     
+			      <td></td>
+			      <td></td>
+			      <td><b>Extra SubTotal</b></td>     
+			      <td><b>$ {{extra_total.cost__sum|intcomma}}</b></td>
+			      
+			    </tr>
+			    {%endif%}
+
+
+			     <tr>
+			      <th scope="row"></th>
+			      
+			      <td></td>
+			      <td><b>Total Expenses</b></td>
+			      <td><b>$ {{total.cost__sum|intcomma}}</b></td>
+			    </tr>
+			  </tbody>
+			</table>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<br>
+<br>
+<h2>CLOSE SHIPMENT {{order}}</h2>
+
+
+  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" id='payment_form' >
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <!--button type="submit" style="background-color: #083652" class="text-white">Update</button-->
+             <button type="button" data-toggle="modal" data-target="#closeModal" style="background-color: #083652" class="text-white">
+			  Close Order
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="closeModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="closeModalLabel">Did you load all the Expenses?</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<p>Select <b>YES</b> if all Expenses were loaded.</p>
+			      	<p>Select <b>NO</b> if you forgot to load an Expense.</p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <!--button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button-->
+			        <a href="{% url 'shipments:newExpense' %}"  class="btn btn-secondary" > NO</a>
+			        <button class="btn" style="background-color: #083652;color:white" type="submit" form="payment_form">YES</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+      </div>
+    </div>
+  </form>
+
+
+
+{% endblock %}

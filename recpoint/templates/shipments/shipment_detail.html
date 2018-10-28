@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
+
+<br><br>
+<h2>SHIPMENT DETAILS FOR {{shipment}}</h2>
+
+<table class="table table-striped text-center">
+			  <thead>
+			    <tr>
+			      <th scope="col">Shipment Date</th>
+			      <th scope="col">Delivery Date</th>
+			      <th scope="col">Shipment Type</th>
+			      <th scope="col">Truck</th>
+			      <th scope="col">Trailer</th>
+			      <th scope="col">Driver</th>
+			      <th scope="col">Destination</th>
+			    </tr>
+			  </thead>
+			   <tbody>
+			  	
+			    <tr>
+			      <th scope="row">{{shipment.order_date}}</th>
+			      <td>{{shipment.delivery_date}}</td>
+			      <td>{{shipment.shipment_type}}</td>
+			      <td>{{shipment.truck}}</td>
+			      <td>{{shipment.trailer}}</td>
+			       <td>{{shipment.driver}}</td>
+			        <td>{{shipment.destination}}</td>
+			    
+			    </tr>
+			   
+			   
+			  </tbody>
+</table>
+
+
+
+<table class="table table-striped text-center">
+			  <thead>
+			    <tr>
+			      
+			       <th scope="col">Expense Type</th>
+			      <th scope="col">Gallons</th>
+			      <th scope="col">Comments</th>
+			      <th scope="col">Payed Ammount</th>
+			    </tr>
+			  </thead>
+
+			  <tbody>
+			  	{% for s in expenses %}
+			    <tr>
+			      
+			      <td>{{s.expense_type}}</td>
+			      <td>{{s.gas_gallons}}</td>
+			      <td>{{s.description}}</td>     
+			      <td>$ {{s.cost|intcomma}}</td>
+			      
+			    </tr>
+			    {% endfor %}
+			     
+			  </tbody>
+			</table>
+
+
+
+
+{% endblock %}

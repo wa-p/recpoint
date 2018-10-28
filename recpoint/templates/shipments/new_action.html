@@ -4,7 +4,7 @@
 
 {% block content %}
 
-NEW SHIPMENTS
+NEW {{action}}
 
 
   <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
@@ -12,7 +12,7 @@ NEW SHIPMENTS
     {{ form|crispy }}
     <div class="control-group">
       <div class="controls">
-        <button type="submit" class="btn">Update</button>
+        <button type="submit" style="background-color: #083652;color:white" class="btn">Save</button>
       </div>
     </div>
   </form>

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load asset_tags %}
+{% block title %}{{type |title}} Per Miles{% endblock %}
+
+{% block content %}
+
+<br><br>
+<h2>{{type |title}} Per Miles</h2>
+
+ <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
+   				 {% csrf_token %}
+   				 <div class="row"> 				 
+				   	<div class="form-group col-sm-6">
+					    <label for="start_date">Start Date</label>
+					    <input type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate" placeholder="Starting Date" required>				    
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="end_date">End Date</label>
+					    <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate" placeholder="Ending Date" required>				    
+					  </div>
+				  </div>
+			    <div class="control-group">
+			      <div class="controls">
+			        <button type="submit" style="background-color: #083652" class="text-white">Search</button>
+			      </div>
+			    </div>
+			  </form>
+			  <br><br>
+
+
+<table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th scope="col">Order Number</th>
+            <th scope="col">Miles</th>
+            <th scope="col">{{type |title}} Total</th>
+            <th scope="col">Relation</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Driver</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in orders %}
+          <tr>
+            <th scope="row">{{o.order_number}}</th>
+            <td>{{o.real_miles}}</td>
+            	{% for t in expenses_sum %}
+            		{% if t.order_number == o.id %}
+            			 <td>{% if type == 'dollar' %}${%endif%} {{t.total}} {% if type == 'gallons' %} Gal. {%endif%} </td>
+            			  <td> {{t.total|divide:o.real_miles |floatformat:2}} {% if type == 'dollar' %}$/Mi.{%endif%} {% if type == 'gallons' %} Gal/Mi {%endif%}</td>
+            		{% endif %}
+            	{% endfor %}
+           
+            <td>{{o.destination}}</td>
+            <td>{{o.driver}}</td>    
+            
+            
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+
+
+{% endblock %}

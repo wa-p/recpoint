@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+
+<br><br>
+
+
+
+
+	
+			{% if option == 'open' %}
+
+<h2>IN TRANSIT SHIPMENTS LIST</h2>			
+
+<table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th scope="col">Order Number</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Destination</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in shipments %}
+          <tr>
+            <th scope="row"><a style="display: block;" href="{% url 'shipments:shipmentsClose' idorder=o.id %}">{{o.order_number}}</th>
+            <td>{{o.order_date}}</td>       
+            <td>{{o.destination}}</td>  
+            
+          </tr>
+          {% endfor %}
+           
+        </tbody>
+      </table>
+
+
+      {% elif option == 'closed' %}
+
+			<h2>DELIVERED SHIPMENTS LIST </h2>			
+
+			<table class="table table-striped text-center">
+			        <thead>
+			          <tr>
+			            <th scope="col">Order Number</th>
+			            <th scope="col">Order Date</th>
+			            <th scope="col">Delivery Date</th>
+			            <th scope="col">Destination</th>
+			            
+			            
+			          </tr>
+			        </thead>
+			        <tbody>
+			          {% for o in shipments %}
+			          <tr>
+			            <th scope="row">{{o.order_number}}</th>
+			            <td>{{o.order_date}}</td>       
+			            <td>{{o.delivery_date}}</td>  
+			            <td>{{o.destination}}</td>  
+			            
+			          </tr>
+			          {% endfor %}
+			           
+			        </tbody>
+			      </table>
+
+
+			{% elif option == 'client' %} 
+
+			<h2>COLLECTED SHIPMENTS LIST</h2>
+
+			 <form class="form-horizontal" method="post" action="{% url 'shipments:shipmentsList' option='closed' %}" enctype="multipart/form-data" >
+   				 {% csrf_token %}
+   				 <div class="row"> 				 
+				   	<div class="form-group col-sm-6">
+					    <label for="start_date">Start Date</label>
+					    <input type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate" placeholder="Starting Date" required>				    
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="end_date">End Date</label>
+					    <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate" placeholder="Ending Date" required>				    
+					  </div>
+				  </div>
+			    <div class="control-group">
+			      <div class="controls">
+			        <button type="submit" style="background-color: #083652;color:white" class="btn">Filter</button>
+			      </div>
+			    </div>
+			  </form>
+			  <br><br>
+
+			
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Order Number</th>
+			      <th scope="col">Order Date</th>
+			      <th scope="col">Payment Date</th>
+			      <th scope="col">Payed Ammount</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for s in shipments %}
+			    <tr>
+			      <th scope="row">{{s.order_number}}</th>
+			      <td>{{s.order_number.order_date}}</td>
+			      <td>{{s.payment_date}}</td>
+			      <td>$ {{s.payed_ammount|intcomma}}</td>
+			    </tr>
+			    {% endfor %}
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td><b>Total Payed:</b></td>
+			      <td>$ {{total|intcomma}}</td>
+			    </tr>
+			  </tbody>
+			</table>
+
+
+
+			{% elif option == 'driver' %} 
+
+			<h2>PAYED SHIPMENTS LIST</h2>
+
+			 <form class="form-horizontal" method="post" action="{% url 'shipments:shipmentsList' option='closed' %}" enctype="multipart/form-data" >
+   				 {% csrf_token %}
+   				 <div class="row"> 				 
+				   	<div class="form-group col-sm-6">
+					    <label for="start_date">Start Date</label>
+					    <input type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate" placeholder="Starting Date" required>				    
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="end_date">End Date</label>
+					    <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate" placeholder="Ending Date" required>				    
+					  </div>
+				  </div>
+			    <div class="control-group">
+			      <div class="controls">
+			        <button type="submit" style="background-color: #083652;color:white" class="btn">Filter</button>
+			      </div>
+			    </div>
+			  </form>
+			  <br><br>
+
+			
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Order Number</th>
+			      <th scope="col">Order Date</th>
+			      <th scope="col">Payment Date</th>
+			      <th scope="col">Payed Ammount</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for s in shipments %}
+			    <tr>
+			      <th scope="row">{{s.order_number}}</th>
+			      <td>{{s.order_date}}</td>
+			      <td>{{s.payed_driver_date}}</td>
+			      <td>$ {{s.driver_payment|intcomma}}</td>
+			    </tr>
+			    {% endfor %}
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td><b>Total Payed:</b></td>
+			      <td>$ {{total|intcomma}}</td>
+			    </tr>
+			  </tbody>
+			</table>
+
+
+			
+			{% elif option == 'expense' %} 
+
+			<h2>EXPENSE PER SHIPMENTS LIST</h2>
+
+
+			 <form class="form-horizontal" method="post" action="{% url 'shipments:shipmentsList' option='expense' %}" enctype="multipart/form-data" >
+   				 {% csrf_token %}
+   				 <div class="row"> 				 
+				   	<div class="form-group col-sm-6">
+					    <label for="start_date">Start Date</label>
+					    <input type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDate" placeholder="Starting Date" required>				    
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="end_date">End Date</label>
+					    <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDate" placeholder="Ending Date" required>				    
+					  </div>
+				  </div>
+			    <div class="control-group">
+			      <div class="controls">
+			        <button type="submit" style="background-color: #083652" class="text-white">Search</button>
+			      </div>
+			    </div>
+			  </form>
+			  <br><br>
+
+			
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Order Number</th>
+			      <th scope="col">Order Date</th>
+			      <th scope="col">Delivery Date</th>
+			      <th scope="col">Payed Ammount</th>
+			      <th scope="col">Expenses Ammount</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for s in shipments %}
+			    <tr>
+			      <th scope="row"><a style="display: block;" href="{% url 'shipments:expenseList' idorder=s.order_number.id %}">{{s.order_number}}</a></th>
+			      <td>{{s.order_number.order_date}}</td>
+			      <td>{{s.order_number.delivery_date}}</td>
+			      <td>$ {{s.payed_ammount|intcomma}}</td>
+			      {% for e in expense_unit %}
+			      	{% if s.order_number.id == e.order_number %}
+			      	<td>$ {{e.total|intcomma}}</td>
+			      	{% endif %}
+			      {% endfor %}
+			    </tr>
+			    {% endfor %}
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td></td>
+			      <td><b>Total Payed:</b></td>
+			      <td><b>Total Expenses:</b></td>
+			    </tr>
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td></td>
+			      <td>$ {{total|intcomma}}</td>
+			      <td>$ {{expenses.cost__sum|intcomma}}</td>
+			    </tr>
+			  </tbody>
+			</table>
+			
+			{% elif option == 'all' %}
+
+			<h2>ALL SHIPMENTS LIST</h2>
+
+			 <table class="table table-striped text-center">
+        <thead>
+          <tr>
+            
+            <th scope="col">Order Number</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Order Ammount</th>
+            <th scope="col">Driver Payment</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% regroup shipments by payed as orders_list %}
+
+          {%for group in orders_list %}
+          {% for o in group.list %}
+          <tr>
+           
+            <th scope="row"><a style="display: block;" href="{% url 'shipments:shipmentDetail' idorder=o.id %}">{{o.order_number}}</a></th>
+            <td>{% if o.payed == True %} 
+            	Closed
+            	{%else%}
+            		{% if o.end_miles == 0 %}
+            			In Transit
+            		{% else %}
+            			Open
+            		{% endif %}
+
+            {%endif%}</td>
+            <td>{{o.order_date}}</td>
+            <td>$ {{o.order_payment|intcomma}}</td>
+            <td>$ {{o.driver_payment|floatformat:2 |intcomma}}</td>     
+            
+            
+          </tr>
+          {% endfor %}
+          {% endfor %}
+           <tr>
+            <th scope="row"></th>
+            
+            
+            <td></td>
+            <td><b>Total Unpaid:</b></td>
+          </tr>
+           <tr>
+            <th scope="row"></th>
+            
+            
+            <td></td>
+            <td>$ {{total|floatformat:2|intcomma}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+			{% endif %}
+	  
+	
+
+
+{% endblock %}

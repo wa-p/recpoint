@@ -4,19 +4,24 @@
 
 {% block content %}
 
-NEW SHIPMENTS
+<br>
+<br>
+<div class="container">
+	<h4>Orders To Pay</h4>
+
+	<ul>
+		{% for s in shipments %}
+			<li>{{s.order_number}}</li>		 	
+		 {% endfor %}
+		
+
+	</ul>	
+
+</div>
 
 
-  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn">Update</button>
-      </div>
-    </div>
-  </form>
 
+ 
 
 
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+#from shipments.models import Payment
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
@@ -32,7 +33,6 @@ class Vehicle(models.Model):
 		return self.plate
 
 
-
 class Maintenance(models.Model):
 
 	REGULAR = 'Regular'
@@ -50,3 +50,23 @@ class Maintenance(models.Model):
 
 	def __str__(self):
 		return self.vehicle.plate
+
+
+"""
+
+class PaymentVariation(models.Model):
+	BONUS = 'Bonus'
+	DEDUCTION = 'Deduction'
+	VARIATION_TYPE = (
+			(BONUS,'BONUS'),
+			(DEDUCTION,'DEDUCTION')
+		)
+	payment_number = models.ForeignKey(Payment,on_delete=models.PROTECT)
+	variation_type = models.CharField(_("Variation Type"),blank=False, max_length=9,default='BONUS', choices=VARIATION_TYPE) #models.ForeignKey(Categoria)
+	ammount = models.FloatField(_("Maintenance Cost"), blank=False)
+	description = models.CharField(_("Description"),blank=False,max_length) #models.ForeignKey(Categoria)
+
+	def __str__(self):
+		return self.payment_number.id + " " +variation_type
+
+"""

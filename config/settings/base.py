@@ -39,15 +39,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    #'default': env.db('DATABASE_URL', default='postgres:///recpoint'),
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'dakmrjils95fvh',
-    'USER': 'vhuiyvpqpsywdn',
-    'PASSWORD': '42c777ce8bd8b9daa85619b76f1087fb948e53a1a5b8753098f1541992efcdbc',
-    'HOST': 'ec2-23-21-147-71.compute-1.amazonaws.com',
-    'PORT': '5432',
-}
+    'default': env.db('DATABASE_URL', default='postgres:///recpoint'),
+    
+    #'default': {
+    #'ENGINE': 'django.db.backends.postgresql',
+    #'NAME': 'dakmrjils95fvh',
+    #'USER': 'vhuiyvpqpsywdn',
+    #'PASSWORD': '42c777ce8bd8b9daa85619b76f1087fb948e53a1a5b8753098f1541992efcdbc',
+    #'HOST': 'ec2-23-21-147-71.compute-1.amazonaws.com',
+    #'PORT': '5432',
+#}
+
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -67,7 +69,7 @@ DJANGO_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.humanize', # Handy template tags
+    'django.contrib.humanize', # Handy template tags
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
@@ -76,6 +78,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    #'env/lib/python3.6/site-packages'
     
 ]
 LOCAL_APPS = [
