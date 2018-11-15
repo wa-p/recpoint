@@ -12,8 +12,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
-    "wape.ddns.net",
-    "201.208.201.22"
+    "wape.ddns.net"
 ]
 
 # CACHES

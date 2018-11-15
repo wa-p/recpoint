@@ -18,6 +18,7 @@ class User(AbstractUser):
     licence_type =  CharField(_("Licence Type"), blank=True, max_length=20)
     licence_picture = models.ImageField( blank=True, null=True, max_length=200)
     actual_picture = models.ImageField( blank=True, null=True, max_length=200)
+    percentage = models.FloatField(_("Percentage"),blank=True, default=0 ,max_length=4)
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})

@@ -15,3 +15,9 @@ def divide(value, arg):
 def substract(value, arg):
 	return float(value)-float(arg)
 
+
+
+@register.filter
+def payment(value, arg):
+	return float(value)*float(arg)/100
+    

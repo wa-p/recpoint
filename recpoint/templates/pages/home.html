@@ -65,7 +65,9 @@
               <a class="btn btn-primary" href="{% url 'shipments:newExpense' %}" role="button" style="margin-bottom: 8px">Load Expenses <i class="fas fa-stroopwafel"></i></a>
               {% if request.user|has_group:"Management" %}
                 <a class="btn btn-primary" href="{% url 'shipments:newPayment' %}" role="button" style="margin-bottom: 8px">Load Payment <i class="fas fa-stroopwafel"></i></a>
+                <a class="btn btn-primary" href="{% url 'shipments:variationSelect' %}" role="button" style="margin-bottom: 8px">Load Variation <i class="fas fa-stroopwafel"></i></a>
               {% endif %}
+              <a class="btn btn-primary" href="{% url 'shipments:shipmentPictureSelect' %}" role="button" style="margin-bottom: 8px">Load Pictures of Shipment <i class="fas fa-stroopwafel"></i></a>
             </div>
           </div>
 

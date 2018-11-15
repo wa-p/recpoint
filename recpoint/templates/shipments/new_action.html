@@ -2,17 +2,18 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
+
 {% block content %}
 
 NEW {{action}}
 
 
-  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" >
+  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" id="shipment_new_action" >
     {% csrf_token %}
     {{ form|crispy }}
     <div class="control-group">
       <div class="controls">
-        <button type="submit" style="background-color: #083652;color:white" class="btn">Save</button>
+        <button type="submit" style="background-color: #083652;color:white" class="btn">Continue</button>
       </div>
     </div>
   </form>
@@ -20,3 +21,5 @@ NEW {{action}}
 
 
 {% endblock %}
+
+

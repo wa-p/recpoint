@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+
+
+<h2>VARIATION FOR <b>{{shipment.order_number}}</b></h2>
+
+
+	<button type="button" data-toggle="modal" data-target="#variationLoadModal" style="background-color: #083652;color: white" class="btn">
+			  Load Variation
+			</button>
+
+		<div class="modal fade" id="variationLoadModal" tabindex="-1" role="dialog" aria-labelledby="variationLoadModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="variationLoadModalLabel">Load Variations for {{shipment.order_number}} </h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	 
+				  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" id="variationLoadForm">
+				    {% csrf_token %}
+				    {{ form|crispy }}
+				    <div class="control-group">
+				      <div class="controls">
+				        <button type="submit" style="background-color: #083652;color:white" class="btn" for="variationLoadForm">Save</button>
+				      </div>
+				    </div>
+				  </form>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+			        <!--a href="{% url 'shipments:newExpense' %}"  class="btn btn-secondary" > NO</a-->
+			        <button class="btn " style="background-color: #083652;color:white" type="button" id="boton_form">YES</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+			
+			  <br><br>
+
+			
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Type</th>
+			      <th scope="col">Description</th>
+			      <th scope="col">Ammount</th>
+			      
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for s in variations %}
+			    <tr>
+			      <th scope="row"><a style="display: block;" href="#">{{s.variation_type}}</a></th>
+			      <td>{{s.description}}</td>
+			      {% if s.variation_type == 'Deduction' %}
+			      	<td>-$ {{s.ammount|intcomma}}</td>
+			      {% elif s.variation_type == 'Bonus' %}
+			      	<td>$ {{s.ammount|intcomma}}</td>
+			      {% endif %}
+			      
+			     
+			    </tr>
+			    {% endfor %}
+			     <tr>
+			      <th scope="row"></th>
+			      <td><b>Total Deduction:</b></td>
+			      <td><b>Total Bonus:</b></td>
+			    </tr>
+			     <tr>
+			      <th scope="row"></th>
+			      <td>$ {{t_deduction.ammount__sum|intcomma}}</td>
+			      <td>$ {{t_bonus.ammount__sum|intcomma}}</td>
+			    </tr>
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td><b>Total Variation:</b></td>
+			    </tr>
+			     <tr>
+			      <th scope="row"></th>
+			      <td></td>
+			      <td>$ {{t_variation|intcomma}}</td>
+			    </tr>
+			    
+			  </tbody>
+			</table>
+
+{% endblock %}

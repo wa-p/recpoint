@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime   
 # Create your models here.
 
 from django.utils.translation import ugettext_lazy as _
@@ -37,7 +37,7 @@ class Cost(models.Model):
 	company = models.ForeignKey(ShipmentCompany,on_delete=models.PROTECT, default=1)
 	#shipment_type = models.ForeignKey(ShipmentType,on_delete=models.PROTECT, unique=True)
 	shipment_type = models.ForeignKey(ShipmentType,on_delete=models.PROTECT)
-	ammount = models.FloatField(_("Ammount"),blank=False,max_length=15)
+	amount = models.FloatField(_("Amount"),blank=False,max_length=15,default=0)
 	
 	
 
@@ -49,7 +49,7 @@ class PriceHistory(models.Model):
 
 
 	shipment_type = models.ForeignKey(ShipmentType,on_delete=models.PROTECT)
-	ammount = models.FloatField(_("Ammount"),blank=False,max_length=15)
+	amount = models.FloatField(_("Amount"),blank=False,max_length=15, default=0)
 	start_date = models.DateField(_("Start Date"),blank=False)
 	end_date = models.DateField(_("End Date"),default='2050-12-31')
 
@@ -70,24 +70,29 @@ class Shipment(models.Model):
 	start_miles = models.FloatField(_("Starting Miles"),blank=False,max_length=15)
 	end_miles = models.FloatField(_("Ending Miles"),blank=True, default=0 ,max_length=15)
 	delivery_date = models.DateField(_("Delivery Date"),blank=True,null=True)
-	driver = models.ForeignKey(User,on_delete=models.PROTECT,blank=True, null=True)
+	driver_1 = models.ForeignKey(User,on_delete=models.PROTECT,blank=True, null=True,related_name='driver_1')
+	driver_2 = models.ForeignKey(User,on_delete=models.PROTECT,blank=True, null=True,related_name='driver_2')
 	truck = models.ForeignKey(Vehicle,on_delete=models.PROTECT,blank=True,related_name='truck',null=True)
 	trailer = models.ForeignKey(Vehicle,on_delete=models.PROTECT,blank=True,related_name='trailer',null=True)
 	payed = models.BooleanField(_("Payed by client?"),default=False)
-	payed_driver = models.BooleanField(_("Payed to Driver?"),default=False)
+	payed_driver_1 = models.BooleanField(_("Payed to Driver 1?"),default=False)
+	payed_driver_2 = models.BooleanField(_("Payed to Driver 2?"),default=False)
 	order_picture = models.ImageField( blank=True, null=True, max_length=200)
-	payed_driver_date = models.DateField(_("Driver Payment Date"),blank=True,null=True)
-	tandem = models.BooleanField(_("Tandem drivers?"),default=False)
+	payed_driver_1_date = models.DateField(_("Driver 1 Payment Date"),blank=True,null=True)
+	payed_driver_2_date = models.DateField(_("Driver 2 Payment Date"),blank=True,null=True)
+	tandem = models.BooleanField(_("Team drivers?"),default=False)
 	last_expense = models.BooleanField(_("Last expense loaded?"),default=False)
-	
+	check_amount = models.FloatField(_('Check Amount'),blank=False, default=0)
+	reconcile = models.BooleanField(_("Reconciled acount?"),default=False)
+
 	def __str__(self):
 		return self.order_number
 
 	def driver_payment(self):
 		if self.tandem:
-			return self.payed_miles * self.cost * 0.15
+			return self.check_amount/2
 		else:
-			return self.payed_miles * self.cost * 0.3	
+			return self.check_amount
 		
 
 	def order_payment(self):
@@ -127,7 +132,7 @@ class ShipmentCost(models.Model):
 
 class Payment(models.Model):
 	order_number = models.ForeignKey(Shipment,on_delete=models.PROTECT,blank=False)
-	payed_ammount = models.FloatField(_("Payed Ammount"),blank=False,max_length=15)
+	payed_amount = models.FloatField(_("Payed Amount"),blank=False,max_length=15,default=0)
 	check_number = CharField(_("Check Number"), blank=True, max_length=255, unique=True)
 	payment_date =  models.DateField(_("Payment Date"),blank=False)
 	payment_picture = models.ImageField( blank=True, null=True, max_length=200)
@@ -145,9 +150,18 @@ class PaymentVariation(models.Model):
 		)
 	payment_number = models.ForeignKey(Payment,on_delete=models.PROTECT)
 	variation_type = models.CharField(_("Variation Type"),blank=False, max_length=9,default='BONUS', choices=VARIATION_TYPE) #models.ForeignKey(Categoria)
-	ammount = models.FloatField(_("Variation Ammount"), blank=False)
+	amount = models.FloatField(_("Variation Amount"), blank=False,default=0)
 	description = models.CharField(_("Description"),blank=False,max_length=100) 
 
 	def __str__(self):
-		return self.variation_type
+		return self.variation_type + " " +self.payment_number.order_number.order_number
 
+
+
+class ShipmentPicture(models.Model):
+	order_number = models.ForeignKey(Shipment,on_delete=models.PROTECT,blank=False)
+	picture = models.ImageField( blank=True, null=True, max_length=200)
+	date =  models.DateField(_("Upload Date"),blank=True,default=datetime.now)
+
+	def __str__(self):
+		return self.order_number.order_number + " " + str(self.id)

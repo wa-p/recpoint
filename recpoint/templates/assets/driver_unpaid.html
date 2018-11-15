@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static i18n %}
 {% load humanize %}
+{% load asset_tags %}
 {% block title %}Driver Unpaid Orders{% endblock %}
 
 {% block content %}
@@ -15,7 +16,7 @@
 <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h3 class="card-title">Payment Subtotal</h3>
-    <h6 class="card-subtitle mb-2 text-muted">Total Ammount to pay</h6>
+    <h6 class="card-subtitle mb-2 text-muted">Total Amount to pay</h6>
     <h5 class="card-text">Subtotal: <b>$<span id="subtotal">0</span></b></h5>
     <!--a href="#" class="card-link">Card link</a>
     <button type="submit" style="background-color: #083652" class="text-white" form="payment_form">Make Payment</button-->
@@ -52,7 +53,7 @@
 
  <form class="form-horizontal" method="post" action="{% url 'assets:driverPaymentResume' %}" enctype="multipart/form-data" id="payment_form">
     {% csrf_token %}
-      
+      <input type="hidden" name="driver" value="{{driver}}">
       <table class="table table-striped text-center">
         <thead>
           <tr>
@@ -60,7 +61,7 @@
             <th scope="col">Order Number</th>
             <th scope="col">Order Status</th>
             <th scope="col">Order Date</th>
-            <th scope="col">Order Ammount</th>
+            <th scope="col">Order Amount</th>
             <th scope="col">Driver Payment</th>
             
           </tr>
@@ -73,14 +74,19 @@
           <tr>
             <td>
               <div class="form-check">
-                <input class="form-check-input position-static select_payment" type="checkbox" name="shipment-{{o.id}}" value="{{o.id}}" data-ammount="{{o.driver_payment|floatformat:2}}" aria-label="...">
+                <input class="form-check-input position-static select_payment" type="checkbox" name="shipment-{{o.id}}" value="{{o.id}}" data-ammount="{{o.driver_payment|floatformat:2}}" aria-label="..." {% if o.payed == False %}  disabled {%endif%}>
               </div>
             </td>
             <th scope="row">{{o.order_number}}</th>
             <td>{% if o.payed_driver == True %} Payed {%else%} Not Payed {%endif%}</td>
             <td>{{o.order_date}}</td>
-            <td>$ {{o.order_payment|intcomma}}</td>
-            <td>$ {{o.driver_payment|floatformat:2 |intcomma}}</td>     
+            <td>$ {{o.check_amount|intcomma}}</td>
+            {% if o.tandem %}
+                <td>$ {{o.check_amount|payment:driver.percentage|divide:2 |floatformat:2 |intcomma}}</td>     
+            {% else %}
+                <td>$ {{o.check_amount|payment:driver.percentage |floatformat:2 |intcomma}}</td>     
+            {% endif %}
+            
             
             
           </tr>

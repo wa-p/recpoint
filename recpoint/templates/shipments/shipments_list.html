@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load humanize %}
-
+{% load asset_tags %}
 {% block content %}
 
 <br><br>
@@ -105,12 +105,12 @@
 			  </thead>
 			  <tbody>
 			  	{% for s in shipments %}
-			    <tr>
-			      <th scope="row">{{s.order_number}}</th>
-			      <td>{{s.order_number.order_date}}</td>
-			      <td>{{s.payment_date}}</td>
-			      <td>$ {{s.payed_ammount|intcomma}}</td>
-			    </tr>
+				    <tr>
+				      <th scope="row">{{s.order_number}}</th>
+				      <td>{{s.order_number.order_date}}</td>
+				      <td>{{s.payment_date}}</td>
+				      <td>$ {{s.payed_ammount|intcomma}}</td>
+				    </tr>
 			    {% endfor %}
 			     <tr>
 			      <th scope="row"></th>
@@ -159,12 +159,38 @@
 			  </thead>
 			  <tbody>
 			  	{% for s in shipments %}
-			    <tr>
-			      <th scope="row">{{s.order_number}}</th>
-			      <td>{{s.order_date}}</td>
-			      <td>{{s.payed_driver_date}}</td>
-			      <td>$ {{s.driver_payment|intcomma}}</td>
-			    </tr>
+			  		{% if s.tandem is True %}
+
+			  			{% if s.payed_driver_1 is True %}
+			  				<tr>
+						      <th scope="row">{{s.order_number}}</th>
+						      <td>{{s.order_date}}</td>
+						      <td>{{s.payed_driver_1_date}}</td>
+						      <td>$ {{s.check_amount|payment:s.driver_1.percentage|divide:2|intcomma}}</td>
+						    </tr>
+
+			  			{% endif %}
+			  			{% if s.payed_driver_2 is True %}
+			  				<tr>
+						      <th scope="row">{{s.order_number}}</th>
+						      <td>{{s.order_date}}</td>
+						      <td>{{s.payed_driver_2_date}}</td>
+						      <td>$ {{s.check_amount|payment:s.driver_2.percentage|divide:2|intcomma}}</td>
+						    </tr>
+
+			  			{% endif %}
+
+
+			  		{% else %}
+			  			<tr>
+					      <th scope="row">{{s.order_number}}</th>
+					      <td>{{s.order_date}}</td>
+					      <td>{{s.payed_driver_1_date}}</td>
+					      <td>$ {{s.check_amount|payment:s.driver_1.percentage|intcomma}}</td>
+					    </tr>
+
+			  		{% endif %}
+			    
 			    {% endfor %}
 			     <tr>
 			      <th scope="row"></th>
@@ -219,7 +245,7 @@
 			      <th scope="row"><a style="display: block;" href="{% url 'shipments:expenseList' idorder=s.order_number.id %}">{{s.order_number}}</a></th>
 			      <td>{{s.order_number.order_date}}</td>
 			      <td>{{s.order_number.delivery_date}}</td>
-			      <td>$ {{s.payed_ammount|intcomma}}</td>
+			      <td>$ {{s.payed_amount|intcomma}}</td>
 			      {% for e in expense_unit %}
 			      	{% if s.order_number.id == e.order_number %}
 			      	<td>$ {{e.total|intcomma}}</td>
@@ -279,7 +305,7 @@
 
             {%endif%}</td>
             <td>{{o.order_date}}</td>
-            <td>$ {{o.order_payment|intcomma}}</td>
+            <td>$ {{o.order_payment|floatformat:2|intcomma}}</td>
             <td>$ {{o.driver_payment|floatformat:2 |intcomma}}</td>     
             
             

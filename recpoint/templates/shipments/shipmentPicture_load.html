@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block css %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <style type="text/css">
+        .shipment_picture {
+          width: 35%;
+          height: auto;
+        }
+        @media screen and (max-width: 480px) {
+          .shipment_picture {
+            width: 100%;
+          }
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+
+<h2>PICTURES OF <b>{{shipment.order_number}}</b></h2>
+
+
+	<!--button type="button" data-toggle="modal" data-target="#shipmentPictureLoadModal" style="background-color: #083652;color: white" class="btn">
+			  Load Picture
+			</button-->
+
+	<form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" id="shipmentPictureLoadForm">
+				    {% csrf_token %}
+				    {{ form|crispy }}
+				    <div class="control-group">
+				      <div class="controls">
+				        <button type="submit" style="background-color: #083652;color:white" class="btn" for="shipmentPictureLoadForm">Save</button>
+				      </div>
+				    </div>
+				  </form>
+
+		<!--div class="modal fade" id="shipmentPictureLoadModal" tabindex="-1" role="dialog" aria-labelledby="shipmentPictureLoadModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="shipmentPictureLoadModalLabel">Load Pictures for {{shipment.order_number}} </h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	 
+				  <form class="form-horizontal" method="post" action="#" enctype="multipart/form-data" id="shipmentPictureLoadForm">
+				    {% csrf_token %}
+				    {{ form|crispy }}
+				    <div class="control-group">
+				      <div class="controls">
+				        <button type="submit" style="background-color: #083652;color:white" class="btn" for="shipmentPictureLoadForm">Save</button>
+				      </div>
+				    </div>
+				  </form>
+			</div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+			        <!-a href="{% url 'shipments:newExpense' %}"  class="btn btn-secondary" > NO</a->
+			        <button class="btn " style="background-color: #083652;color:white" type="button" >YES</button>
+			      </div>
+			    </div>
+			  </div>
+			</div-->
+
+			
+			  <br><br>
+
+			
+			<table class="table table-striped text-center">
+			  <thead>
+			    <tr>
+			      <th scope="col">Image</th>
+			      <th scope="col">Date</th>
+			      <th scope="col"></th>
+			      
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for s in pictures %}
+			    <tr>
+			      <th scope="row"><a style="display: block;" href="{{s.picture.url}}"><img src="{{s.picture.url}}"  class="shipment_picture" /></a></th>
+			      <td>{{s.date}}</td>
+			     
+			      	<td></td>
+			      
+			      	
+			      
+			      
+			     
+			    </tr>
+			    {% endfor %}
+			     
+			    
+			  </tbody>
+			</table>
+
+{% endblock %}

@@ -27,7 +27,12 @@
 			      <td>{{shipment.shipment_type}}</td>
 			      <td>{{shipment.truck}}</td>
 			      <td>{{shipment.trailer}}</td>
-			       <td>{{shipment.driver}}</td>
+			       <td>
+			       {% if shipment.tandem %}
+			   			{{shipment.driver_1}} and {{shipment.driver_2}} 
+			   		{% else %} 
+			   			{{shipment.driver_1}}
+			   		{%endif%}</td>
 			        <td>{{shipment.destination}}</td>
 			    
 			    </tr>

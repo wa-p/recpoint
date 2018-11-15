@@ -8,8 +8,8 @@ class FormDriverPayment(forms.ModelForm):
 
 	class Meta:
 		model = Shipment
-		fields = ['driver']
+		fields = ['driver_1']
 
 	def __init__(self,  *args, **kwargs):
 		super(FormDriverPayment, self).__init__( *args, **kwargs)
-		self.fields['driver'].queryset = User.objects.filter(groups__name='Driver')
+		self.fields['driver_1'].queryset = User.objects.filter(groups__name='Driver')

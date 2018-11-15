@@ -13,7 +13,7 @@ admin.site.register(ShipmentCost)
 admin.site.register(Payment)
 admin.site.register(ShipmentCompany)
 admin.site.register(PaymentVariation)
-
+admin.site.register(ShipmentPicture)
 
 
 # Register your models here.
